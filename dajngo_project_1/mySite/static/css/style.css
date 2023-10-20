@@ -1,0 +1,35 @@
+header{
+    width: 100%;
+    background-color: #eee;
+    text-align: center;
+    padding: 20px;
+}
+footer{
+    width: 100%;
+    background-color: red;
+    text-align: center;
+    padding: 20px;
+    font-size: 25px;
+    color: white;
+}
+
+.menu{
+    list-style: none;
+    text-align: center;
+}
+
+.menu li{
+    margin: 10px;
+    display: inline-block;
+}
+a{
+    color: #000;
+}
+a:hover{
+    color: red;
+    text-decoration: none
+}
+h1{
+    text-align: center;
+    font-size: 35px;
+}
