@@ -26,3 +26,5 @@ urlpatterns = [
     path('reg/', views.reg),
     path('auth/', views.auth),
 ]
+
+
