@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+{% block title %}Личный кабинет{% endblock %}
+{% block content %}
+<h1>Личный кабинет</h1>
+
+<form method = 'post'>
+    {%csrf_token%}
+    <label>
+        Nickname
+    </label>
+
+    <input type = 'text' name = 'name' required value="{{data.nickname}}">
+    <br>
+    <label>
+        Login
+    </label>
+    <input type = 'text' name = 'login' readonly required value="{{data.login}}">
+    <br>
+    <label>
+        Password
+    </label>
+
+    <input type = 'password' name = 'password' required value="{{data.password}}">
+    <br>
+    <input type = 'submit' value = 'Обновить'>
+</form>
+{% endblock %}

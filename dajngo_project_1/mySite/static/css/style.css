@@ -33,3 +33,17 @@ h1{
     text-align: center;
     font-size: 35px;
 }
+.row{
+    width: 960px;
+    display: flex;
+    margin: 20px auto;
+    flex-wrap: wrap
+}
+.row div{
+    margin: 10px;
+}
+form{
+    display:block;
+    width:300px;
+    margin:50px auto;
+}

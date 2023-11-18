@@ -1,0 +1,17 @@
+{% extends 'main.html' %}
+{% block title %}Мой первый проект на DJango{% endblock %}
+{% block content %}
+<h1>Блог</h1>
+<div class="row">
+{% load static %}
+    {% for article in articles %}
+    <div>
+        <p>{{article.title}}</p>
+        <p><img src="/static/blog/{{article.image}}" width="300px"> </p>
+        <p>{{article.description}}</p>
+        <p>{{article.cat}}</p>
+        <p><a href="/article/{{article.id}}">Подробнее</a></p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

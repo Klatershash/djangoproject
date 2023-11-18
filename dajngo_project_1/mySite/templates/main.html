@@ -23,12 +23,25 @@
                  <li>
                     <a href="/blog">Блог</a>
                 </li>
+                {% if not 'login' in request.session %}
                  <li>
                     <a href="/reg">Регистрация</a>
                 </li>
                  <li>
                     <a href="/auth">Авторизация</a>
                 </li>
+                {% endif %}
+                {% if 'login' in request.session %}
+                <li>
+                    <a href="/panel">Личный кабинет</a>
+                </li>
+                <li>
+                    <a href="/logout">Выход</a>
+                </li>
+                <li>
+                    <a href="/addarticle">Добавить статью</a>
+                </li>
+                {% endif %}
             </ul>
         </nav>
         {% block content %} {% endblock %}

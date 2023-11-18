@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+{% block title %}Добавить новую статью{% endblock %}
+{% block content %}
+<h1>Добавить новую статью</h1>
+<form method = 'post' enctype="multipart/form-data">
+    {%csrf_token%}
+    <label>
+        Заголовок статьи
+    </label>
+    {{form.title}}
+    <br>
+     <label>
+        Описание статьи
+    </label>
+    {{form.description}}
+    <br>
+    <label>
+        Fulltext
+    </label>
+    {{form.text}}
+    <br>
+     <label>
+        Image
+    </label>
+    <input type="file" name="image">
+    <br>
+      <label>
+        Category
+    </label>
+    {{form.category}}
+    <br>
+    <br>
+    <input type = 'submit' value = 'Добавить статью'>
+</form>
+{% endblock %}

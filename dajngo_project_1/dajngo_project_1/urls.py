@@ -25,6 +25,10 @@ urlpatterns = [
     path('blog/', views.blog),
     path('reg/', views.reg),
     path('auth/', views.auth),
+    path('article/<int:id>', views.article_id),
+    path('panel/', views.panel),
+    path('logout/', views.logout),
+    path('addarticle/', views.addarticle)
 ]
 
 
