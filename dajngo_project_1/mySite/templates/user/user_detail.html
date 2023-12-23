@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+{% block title %} Пользователи {% endblock %}
+{% block content %}
+<div class="flex_user">
+    <div>
+        <img src="/static/blog/{{user.avatar}}" width="100%">
+        {% if d != 1 %}
+            <p style="float: left">
+            {% if f == 1 %}
+            Уже в друзьях
+            {% else %}
+                <form method="POST"  style="width: 133px; margin: 5px">
+                    {% csrf_token %}
+                    <input type="hidden" name="id_user" value="{{user.id}}">
+                     <button class="btn"> Добавить в друзья </button>
+                </form>
+            {% endif %}
+            </p>
+            <p style="float: right">
+                 <form method="GET" action="/chat/{{user.login}}/" style="width: 133px; margin: 5px">
+                     {% csrf_token %}
+                    <input type="hidden" name="id_user" value="{{user.id}}">
+                     <button class="btn"> Написать сообщение </button>
+                 </form>
+
+            </p>
+        {% endif %}
+        <div class="clear"></div>
+    </div>
+    <div>
+        <p><b>Nickname:</b>{{user.nickname}}</p>
+        <p><b>Login:</b>{{user.login}}</p>
+    </div>
+</div>
+{% endblock %}

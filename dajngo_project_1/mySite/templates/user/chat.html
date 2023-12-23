@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+{% block title %} Пользователи {% endblock %}
+{% block content %}
+<h2 align="center">Чат с пользователем {{friend_user.login}}</h2>
+<div style="width: 300px; margin: auto; border: 1px solid #555">
+   {% for chat in chats %}
+        {% if chat.user == current_user %}
+            <p align="right">{{chat.message}}</p>
+        {% else %}
+            <p align="left">{{chat.message}}</p>
+        {% endif %}
+    {% endfor %}
+</div>
+<div style="width: 300px; margin: auto">
+    <form method="POST">
+        {% csrf_token %}
+        <textarea name="message" cols="30" rows="5"></textarea><br />
+        <button>Отправить</button>
+    </form>
+</div>
+{% endblock %}

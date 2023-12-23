@@ -47,3 +47,23 @@ form{
     width:300px;
     margin:50px auto;
 }
+.flex_user{
+    display: flex;
+}
+.flex_user div:first-child{
+    width: 30%
+}
+.flex_user div:last-child{
+    width: 70%;
+    margin-left: 20px
+}
+.btn{
+    padding: 7px;
+    color: #fff;
+    background: #00f;
+    border-radius: 7px;
+    border: none
+}
+.clear{
+    clear: both
+}

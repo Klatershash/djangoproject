@@ -24,4 +24,14 @@
     <br>
     <input type = 'submit' value = 'Обновить'>
 </form>
+<h2 align="center"> Аватар </h2>
+<p align="center">
+    <img src="/static/blog/{{avatar}}" width="200px" align="center">
+</p>
+
+<form action="/add_avatar/" method = 'post' enctype="multipart/form-data">
+    {%csrf_token%}
+    <input type = 'file' name = 'avatar'>
+    <button>Загрузить</button>
+</form>
 {% endblock %}

@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
-from mySite.models import Article, User
-from  mySite.forms import AddArticle
+from django.db.models import Q
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Article, User, Category, Friend, Chat
+from  .forms import AddArticle
 from django.core.files.storage import FileSystemStorage
+from django.core.mail import send_mail
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
@@ -20,7 +22,8 @@ def blog(request):
             'image':str(article.image).split('/')[-1],
             'description':article.description,
             'id':article.id,
-            'cat':article.category.title
+            'cat':article.category.title,
+            'user':article.user.login
         })
     #print(articles_new)
     a = {
@@ -86,9 +89,12 @@ def panel(request):
     if not 'login' in request.session:
         return redirect('/reg')
     data = User.objects.filter(login=request.session['login']).first()
+
     a = {
-        'data': data
+        'data': data,
+        'avatar': str(data.avatar).split('/')[-1]
     }
+
     if request.method == 'POST':
         nickname = request.POST['name']
         login = request.POST['login']
@@ -112,22 +118,81 @@ def addarticle(request):
         description = request.POST['description']
         text = request.POST['text']
         image = request.FILES['image']
-        print(image)
         category = request.POST['category']
         f = FileSystemStorage()
-        f.save('image', image)
-        url_file = f.url()
-
-        '''article = Article()
+        f.save(image.name, image)
+        article = Article()
         article.title = title
         article.description = description
         article.text = text
-        article.image = url_file
-        article.category = category
+        article.image = 'mySite/static/blog/'+image.name
+        article.category = Category.objects.filter(id=category).first()
         article.save()
-        return redirect('addarticle')'''
-
-
+        request.session['suc'] = 1
     else:
-        form = AddArticle
+        if 'suc' in request.session:
+            del request.session['suc']
+
+    form = AddArticle
     return render(request, 'addarticle.html', context={'form': form})
+
+def users(request):
+    a=User.objects.all()
+    newusers = []
+    for i in a:
+        newusers.append({
+            'id': i.id,
+            'login': i.login,
+            'avatar': str(i.avatar).split('/')[-1]
+        })
+    return render(request, 'user/users.html', context={'users': newusers})
+
+def user_detail(request,login):
+    current_user = get_object_or_404(User, login=request.session['login'])
+    friend_user = get_object_or_404(User, login=login)
+    if request.method == 'POST':
+        if current_user == friend_user:
+            return redirect('/user/'+login)
+        if not Friend.objects.filter(user=current_user, friend=friend_user).exists():
+            Friend.objects.create(user=current_user, friend=friend_user)
+    a=User.objects.filter(login=login).first()
+    newusers = {
+        'id': a.id,
+        'login': a.login,
+        'nickname': a.nickname,
+        'avatar': str(a.avatar).split('/')[-1]
+    }
+    f = 0
+    if Friend.objects.filter(user=current_user, friend=friend_user).exists():
+        f = 1
+
+    d = 0
+    if login == request.session['login']:
+        d = 1
+    print(d)
+
+    return render(request, 'user/user_detail.html', context={'user': newusers, 'f': f, 'd': d})
+
+
+def add_avatar(request):
+    if request.method == 'POST' and request.FILES:
+        image = request.FILES['avatar']
+
+        f = FileSystemStorage()
+        f.save(image.name, image)
+        user_current = User.objects.filter(login=request.session['login']).first()
+        user = User.objects.get(id=user_current.id)
+        user.avatar = 'mySite/static/user/' + image.name
+        user.save()
+    return redirect('/panel')
+
+def chat(request, login):
+    current_user = get_object_or_404(User, login=request.session['login'])
+    friend_user = get_object_or_404(User, login=login)
+    if request.method == 'POST':
+        message = request.POST['message']
+        Chat.objects.create(user=current_user, friend=friend_user, message=message)
+
+    chats = Chat.objects.filter(Q(user=current_user, friend=friend_user) | Q(user=friend_user, friend=current_user)).order_by('datetime')
+
+    return render(request, 'user/chat.html', {'chats': chats, 'current_user': current_user, 'friend_user': friend_user})

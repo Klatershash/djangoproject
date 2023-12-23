@@ -1,0 +1,20 @@
+{% extends 'main.html' %}
+{% block title %} Пользователи {% endblock %}
+{% block content %}
+<ul style="display: flex; list-style: none; width: 681px;
+    margin: auto;">
+    {% for i in users %}
+    <li style="width: 100px; margin: 5px; text-align: center; ">
+        <p align="center" style="margin: 0;">
+            <a href="/user/{{i.login}}"><img src="/static/blog/{{i.avatar}}" width="100%" align="center" style="display: block;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 100px;
+    height: 100px;"></a>
+        </p>
+        <a href="/user/{{i.login}}">{{i.login}}</a>
+    </li>
+    {% endfor %}
+
+</ul>
+{% endblock %}

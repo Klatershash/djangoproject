@@ -1,6 +1,9 @@
 {% extends 'main.html' %}
 {% block title %}Добавить новую статью{% endblock %}
 {% block content %}
+{% if 'suc' in request.session %}
+<p align="center">Вы успешно добавили статью!</p>
+{% endif %}
 <h1>Добавить новую статью</h1>
 <form method = 'post' enctype="multipart/form-data">
     {%csrf_token%}
@@ -22,7 +25,7 @@
      <label>
         Image
     </label>
-    <input type="file" name="image">
+    <input type="file" name="image" accept="image/png,image/jpeg">
     <br>
       <label>
         Category

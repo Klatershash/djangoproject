@@ -28,7 +28,12 @@ urlpatterns = [
     path('article/<int:id>', views.article_id),
     path('panel/', views.panel),
     path('logout/', views.logout),
-    path('addarticle/', views.addarticle)
+    path('addarticle/', views.addarticle),
+    path('users/', views.users),
+    path('user/<str:login>', views.user_detail),
+    path('add_avatar/', views.add_avatar),
+    path('chat/<str:login>/', views.chat)
 ]
+
 
 
